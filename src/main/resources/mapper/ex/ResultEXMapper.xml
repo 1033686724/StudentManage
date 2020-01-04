@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.studentmanage.mapper.ex.ResultEXMapper">
+    <resultMap id="abn" type="com.briup.studentmanage.bean.ex.ResultsEX">
+        <id column="id" property="id"></id>
+        <result column="chinese" property="chinese"></result>
+        <result column="math" property="math"></result>
+        <result column="english" property="english"></result>
+        <result column="political" property="political"></result>
+        <result column="history" property="history"></result>
+        <result column="geographic" property="geographic"></result>
+        <result column="student_id" property="student_id"></result>
+        <result column="sName" property="sName"></result>
+        <association property="sName" column="student_id"
+                     select="selectStuName"></association>
+    </resultMap>
+    <select id="selectAll" resultMap="abn">
+        select s.name sName,r.chinese,r.math,r.english,r.political,r.history,r.geographic,r.id rid
+        from t_results r,t_student s
+        where r.student_id = s.id and r.id = #{id}
+    </select>
+    <select id="selectStuId" resultType="com.briup.studentmanage.bean.Student">
+        select * from t_student s where s.id = #{id}
+    </select>
+    <select id="selectByStuName" resultMap="abn">
+        select * from t_results r s where sName like #{word}
+    </select>
+</mapper>

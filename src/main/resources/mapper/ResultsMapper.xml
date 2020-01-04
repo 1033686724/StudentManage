@@ -11,7 +11,7 @@
     <result column="geographic" jdbcType="DOUBLE" property="geographic" />
     <result column="examTime" jdbcType="TIMESTAMP" property="examtime" />
     <result column="examStatus" jdbcType="INTEGER" property="examstatus" />
-    <result column="studentId" jdbcType="INTEGER" property="studentid" />
+    <result column="student_id" jdbcType="INTEGER" property="studentid" />
     <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -74,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, chinese, math, english, political, history, geographic, examTime, examStatus, 
-    studentId, state
+    student_id, state
   </sql>
   <select id="selectByExample" parameterType="com.briup.studentmanage.bean.ResultsExample" resultMap="BaseResultMap">
     select
@@ -110,7 +110,7 @@
     insert into t_results (id, chinese, math, 
       english, political, history, 
       geographic, examTime, examStatus, 
-      studentId, state)
+      studentid, state)
     values (#{id,jdbcType=INTEGER}, #{chinese,jdbcType=DOUBLE}, #{math,jdbcType=DOUBLE}, 
       #{english,jdbcType=DOUBLE}, #{political,jdbcType=DOUBLE}, #{history,jdbcType=DOUBLE}, 
       #{geographic,jdbcType=DOUBLE}, #{examtime,jdbcType=TIMESTAMP}, #{examstatus,jdbcType=INTEGER}, 
@@ -147,7 +147,7 @@
         examStatus,
       </if>
       <if test="studentid != null">
-        studentId,
+        studentid,
       </if>
       <if test="state != null">
         state,
@@ -226,7 +226,7 @@
         examStatus = #{record.examstatus,jdbcType=INTEGER},
       </if>
       <if test="record.studentid != null">
-        studentId = #{record.studentid,jdbcType=INTEGER},
+        student_id = #{record.studentid,jdbcType=INTEGER},
       </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=INTEGER},
@@ -247,7 +247,7 @@
       geographic = #{record.geographic,jdbcType=DOUBLE},
       examTime = #{record.examtime,jdbcType=TIMESTAMP},
       examStatus = #{record.examstatus,jdbcType=INTEGER},
-      studentId = #{record.studentid,jdbcType=INTEGER},
+      student_id = #{record.studentid,jdbcType=INTEGER},
       state = #{record.state,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -281,7 +281,7 @@
         examStatus = #{examstatus,jdbcType=INTEGER},
       </if>
       <if test="studentid != null">
-        studentId = #{studentid,jdbcType=INTEGER},
+        student_id = #{studentid,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
@@ -299,7 +299,7 @@
       geographic = #{geographic,jdbcType=DOUBLE},
       examTime = #{examtime,jdbcType=TIMESTAMP},
       examStatus = #{examstatus,jdbcType=INTEGER},
-      studentId = #{studentid,jdbcType=INTEGER},
+      student_id = #{studentid,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
