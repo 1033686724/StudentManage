@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- mybatis-generator的核心配置文件 -->
+<generatorConfiguration>
+
+	<classPathEntry
+		location="D:\java12.23\repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar"/>
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<!-- 注意！如果要重新生成pojo类，务必改成项目组数据库，用户名密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://120.78.171.248:3306/group7" userId="group7"
+			password="group7">
+		</jdbcConnection>
+
+
+		<!--指定生成的类型为java类型，避免数据库中number等类型字段 -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!--自动生成的实体的存放包路径 -->
+		<javaModelGenerator targetPackage="com.briup.studentmanage.bean"
+			targetProject="./src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!--自动生成的*Mapper.xml文件存放路径 -->
+		<sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!--自动生成的*Mapper.java存放路径 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.briup.studentmanage.mapper" targetProject="./src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+
+		<!-- 映射配置 -->
+		<table tableName="t_course" domainObjectName="Course"></table>
+		<table tableName="t_manager" domainObjectName="Manager"></table>
+		<table tableName="t_manager_admin" domainObjectName="ManagerAdmin"></table>
+		<table tableName="t_manager_role" domainObjectName="ManagerRole"></table>
+		<table tableName="t_manager_student" domainObjectName="ManagerStudent"></table>
+		<table tableName="t_manager_teacher" domainObjectName="ManagerTeacher"></table>
+		<table tableName="t_news" domainObjectName="News"></table>
+		<table tableName="t_notice" domainObjectName="Notice"></table>
+		<table tableName="t_results" domainObjectName="Results"></table>
+		<table tableName="t_role" domainObjectName="Role"></table>
+		<table tableName="t_student" domainObjectName="Student"></table>
+		<table tableName="t_student_custom" domainObjectName="StudentCustom"></table>
+		<table tableName="t_teacher" domainObjectName="Teacher"></table>
+		<table tableName="t_teacher_course" domainObjectName="TeacherCourse"></table>
+
+
+
+	</context>
+</generatorConfiguration>
