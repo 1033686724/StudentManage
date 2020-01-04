@@ -3,6 +3,7 @@ package com.briup.studentmanage.bean;
 import java.io.Serializable;
 
 public class Manager implements Serializable {
+
     private Integer id;
 
     private String name;

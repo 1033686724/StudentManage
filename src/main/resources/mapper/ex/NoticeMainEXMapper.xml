@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.studentmanage.mapper.ex.NoticeMainEXMapper">
+    <resultMap id="abn" type="com.briup.studentmanage.bean.ex.NoticeMainEX">
+        <id column="id" property="id"></id>
+        <result column="notice" property="notice"></result>
+        <result column="createTime" property="createtime"></result>
+        <result column="state" property="state"></result>
+        <result column="adminId" property="adminid"></result>
+        <association property="manager" column="adminId" select="selec tName"></association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="abn">
+        select * from t_notice where state=0;
+    </select>
+    <select id="selectName" resultType="com.briup.studentmanage.bean.Manager">
+        select tm.name from  t_manager tm,t_manager_admin tma where tm.id=tma.managerId and tma.adminId = #{mid}
+    </select>
+
+
+
+
+</mapper>
