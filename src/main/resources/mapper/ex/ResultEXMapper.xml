@@ -10,19 +10,26 @@
         <result column="history" property="history"></result>
         <result column="geographic" property="geographic"></result>
         <result column="student_id" property="student_id"></result>
-        <result column="sName" property="sName"></result>
-        <association property="sName" column="student_id"
+        <result column="name" property="sName"></result>
+        <association property="sName" column="s.name"
                      select="selectStuName"></association>
     </resultMap>
     <select id="selectAll" resultMap="abn">
-        select s.name sName,r.chinese,r.math,r.english,r.political,r.history,r.geographic,r.id rid
+        select *
         from t_results r,t_student s
-        where r.student_id = s.id and r.id = #{id}
+        where r.student_id = s.id
     </select>
-    <select id="selectStuId" resultType="com.briup.studentmanage.bean.Student">
-        select * from t_student s where s.id = #{id}
+    <select id="selectStuName" resultType="com.briup.studentmanage.bean.Student">
+        select s.name from t_student s
     </select>
     <select id="selectByStuName" resultMap="abn">
-        select * from t_results r s where sName like #{word}
+        select *
+        from t_student s,t_results r
+        where s.name like #{word} and r.student_id = s.id
+    </select>
+    <select id="selectById" resultMap="abn">
+        select *
+        from t_results r,t_student s
+        where r.student_id = s.id and s.id = #{id}
     </select>
 </mapper>

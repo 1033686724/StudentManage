@@ -48,4 +48,14 @@ public class ResultServiceImpl implements IResultService {
             return list;
         }
     }
+
+    @Override
+    public void deleteById(int id) throws RuntimeException {
+        resultsMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public ResultsEX selectById(int id ) throws RuntimeException {
+      return resultEXMapper.selectById(id);
+    }
 }

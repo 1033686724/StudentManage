@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.studentmanage.mapper.ex.StudentEXMapper">
+    <resultMap id="abn" type="com.briup.studentmanage.bean.ex.StudentEX">
+        <id column="cName" property="cName"></id>
+        <result column="claName" property="claName"></result>
+        <result column="tName" property="tName"></result>
+
+    </resultMap>
+    <select id="selectTeacher" resultMap="abn">
+        select c.classname claName,c.cname cName,t.name tName
+        from t_student s,t_course c,t_teacher t
+        where s.teacher_id = t.id and s.course_id = c.id
+    </select>
+</mapper>

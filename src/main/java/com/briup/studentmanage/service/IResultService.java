@@ -11,4 +11,8 @@ public interface IResultService {
     void  saveOrUpdate(Results results)throws RuntimeException;
 
     List<ResultsEX> searcher(String word)throws RuntimeException;
+
+    void deleteById(int id) throws  RuntimeException;
+
+    ResultsEX selectById(int id) throws RuntimeException;
 }

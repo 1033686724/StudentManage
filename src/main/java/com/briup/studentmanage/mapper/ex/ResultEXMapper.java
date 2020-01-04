@@ -8,4 +8,6 @@ public interface ResultEXMapper {
     List<ResultsEX> selectAll() throws RuntimeException;
 
     List<ResultsEX> selectByStuName(String word) throws RuntimeException;
+
+    ResultsEX selectById(int id) throws RuntimeException;
 }
