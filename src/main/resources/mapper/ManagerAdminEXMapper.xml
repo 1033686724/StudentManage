@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.studentmanage.mapper.ManagerAdminEXMapper">
+  <resultMap id="mad" type="com.briup.studentmanage.bean.ManagerAdminKey">
+        <result column="managerId" property="managerid"></result>
+        <result column="adminId" property="adminid"></result>
+
+    </resultMap>
+<select id="selectBymanagerid" resultType="com.briup.studentmanage.bean.Manager">
+    select t_manager.name,t_role.name, from t_manager,t_role
+</select>
+    <select id="selectAdminNum" resultType="java.lang.Integer">
+        select count(*) from t_manager_admin
+    </select>
+    <select id="selectTeacherNum" resultType="java.lang.Integer">
+        select count(*) from t_teacher
+    </select>
+    <select id="selectStuNum" resultType="java.lang.Integer">
+        select count(*) from t_student
+    </select>
+    <select id="selectClaNum" resultType="java.lang.Integer">
+        select count(*) from t_course
+    </select>
+
+</mapper>
