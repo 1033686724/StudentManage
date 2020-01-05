@@ -7,16 +7,39 @@
         <result column="createTime" property="createtime"></result>
         <result column="state" property="state"></result>
         <result column="adminId" property="adminid"></result>
-        <association property="manager" column="adminId" select="selec tName"></association>
+        <association property="manager" column="adminId" select="selectName"></association>
     </resultMap>
 
     <select id="selectAll" resultMap="abn">
-        select * from t_notice where state=0;
+        select * from t_notice where state=0
     </select>
     <select id="selectName" resultType="com.briup.studentmanage.bean.Manager">
-        select tm.name from  t_manager tm,t_manager_admin tma where tm.id=tma.managerId and tma.adminId = #{mid}
+        select * from  t_manager tm,t_manager_admin tma where tm.id=tma.managerId and tma.adminId = #{mid}
     </select>
-
+    <select id="selectAll2" resultMap="abn">
+        select * from t_notice
+    </select>
+    <select id="selectByWord" resultMap="abn">
+        select * from t_notice where notice like #{word}
+    </select>
+    <select id="selectByDate1" resultMap="abn">
+        select * from t_notice where createTime > #{date}
+    </select>
+    <select id="selectByDate2" resultMap="abn">
+        select * from t_notice where createTime > #{date}
+    </select>
+    <select id="selectByD1AndD2" resultMap="abn">
+        select * from t_notice where createTime between #{date1} and #{date2}
+    </select>
+    <select id="selectByD1AndD2AndWord" resultMap="abn">
+        select * from t_notice  where notice like #{word} (createTime between #{date1} and #{date2})
+    </select>
+    <select id="selectByWordAndD1" resultMap="abn">
+        select * from t_notice  where createTime &gt;= #{date1} and notice like #{word}
+    </select>
+    <select id="selectByWordAndD2" resultMap="abn">
+        select * from t_notice where createTime  &lt;= #{date2} and notice like #{word}
+    </select>
 
 
 
