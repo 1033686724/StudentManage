@@ -4,6 +4,7 @@ import com.briup.studentmanage.service.INoticeMainService;
 import com.briup.studentmanage.service.impl.NoticeMainServiceImpl;
 import com.briup.studentmanage.util.Message;
 import com.briup.studentmanage.util.MessageUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/NoticeMain")
+@Api(description = "主要消息")
 public class NoticeMainController {
     @Autowired
     INoticeMainService iNoticeMainService;
