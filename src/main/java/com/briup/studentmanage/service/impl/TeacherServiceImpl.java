@@ -4,6 +4,7 @@ import com.briup.studentmanage.bean.Teacher;
 import com.briup.studentmanage.bean.TeacherExample;
 import com.briup.studentmanage.mapper.CourseMapper;
 import com.briup.studentmanage.mapper.TeacherMapper;
+import com.briup.studentmanage.mapper.ex.TeacherEXMapper;
 import com.briup.studentmanage.service.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,16 @@ import java.util.List;
 
 @Service
 public class TeacherServiceImpl implements ITeacherService {
-   @Autowired
-   private TeacherMapper teacherMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
+
+    @Autowired
+    private TeacherEXMapper teacherEXMapper;
+
     @Override
     public List<Teacher> findAll() throws RuntimeException {
-        TeacherExample example=new TeacherExample();
-        return  teacherMapper.selectByExample(example);
+        TeacherExample example = new TeacherExample();
+        return teacherMapper.selectByExample(example);
     }
 
     @Override
@@ -26,14 +31,14 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
-    public void saveOrUpdate(Teacher teacher)throws RuntimeException {
-        if(teacher== null){
+    public void saveOrUpdate(Teacher teacher) throws RuntimeException {
+        if (teacher == null) {
             throw new RuntimeException("参数为空");
         }
 
-        if (teacher.getId()==null){
+        if (teacher.getId() == null) {
             teacherMapper.insert(teacher);
-        }else {
+        } else {
             teacherMapper.updateByPrimaryKey(teacher);
         }
     }
@@ -41,7 +46,18 @@ public class TeacherServiceImpl implements ITeacherService {
     @Override
     public Teacher selectById(int id) throws RuntimeException {
 
-       Teacher course= teacherMapper.selectByPrimaryKey(id);
+        Teacher course = teacherMapper.selectByPrimaryKey(id);
         return course;
     }
+
+    @Override
+    public List<Teacher> search(String word) throws RuntimeException {
+        if (word == null || "".equals(word)) {
+            return findAll();
+        } else {
+            word = "%" + word + "%";
+            return teacherEXMapper.selectName(word);
+        }
+    }
+
 }

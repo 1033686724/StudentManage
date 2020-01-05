@@ -1,6 +1,7 @@
 package com.briup.studentmanage.web.controller;
 
 import com.briup.studentmanage.bean.Course;
+import com.briup.studentmanage.bean.ex.CourseEX;
 import com.briup.studentmanage.service.ICourseService;
 import com.briup.studentmanage.util.Message;
 import com.briup.studentmanage.util.MessageUtil;
@@ -22,7 +23,7 @@ public class CourseController {
     @GetMapping("/selectAll") // /link/selctAll
     @ApiOperation(value = "查询所有班级")
     public Message selectAll(){
-        List<Course> courses=courseService.findAll();
+        List<CourseEX> courses=courseService.selectAll();
         return MessageUtil.success(courses);
 
     }
@@ -53,6 +54,13 @@ public class CourseController {
     public Message update(Course course){
         courseService.saveOrUpdate(course);
         return MessageUtil.success();
+
+    }
+    @GetMapping("/selectByCondi")
+    @ApiOperation(value = "关键词查询")
+    public Message selectByCondi(String word){
+        List<CourseEX> list = courseService.search(word);
+        return MessageUtil.success(list);
 
     }
 }

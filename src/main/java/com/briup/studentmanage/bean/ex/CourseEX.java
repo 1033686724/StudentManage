@@ -16,6 +16,7 @@ public class CourseEX implements Serializable {
     private Integer teacherid;
 
     private String teacherName;
+    private TeacherEX teacherEX;
 
     public Integer getId() {
         return id;

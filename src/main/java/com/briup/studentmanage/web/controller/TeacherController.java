@@ -56,4 +56,11 @@ public class TeacherController {
         return MessageUtil.success();
 
     }
+    @GetMapping("/selectByCondi")
+    @ApiOperation(value = "关键词查询")
+    public Message selectByCondi(String word){
+        List<Teacher> list = teacherService.search(word);
+        return MessageUtil.success(list);
+
+    }
 }
