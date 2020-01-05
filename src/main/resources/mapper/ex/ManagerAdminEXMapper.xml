@@ -4,7 +4,6 @@
   <resultMap id="mad" type="com.briup.studentmanage.bean.ManagerAdminKey">
         <result column="managerId" property="managerid"></result>
         <result column="adminId" property="adminid"></result>
-
     </resultMap>
 <select id="selectBymanagerid" resultType="com.briup.studentmanage.bean.Manager">
     select t_manager.name,t_role.name, from t_manager,t_role
