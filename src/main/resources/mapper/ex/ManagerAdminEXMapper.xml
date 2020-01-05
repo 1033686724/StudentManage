@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.briup.studentmanage.mapper.ManagerAdminEXMapper">
-  <resultMap id="mad" type="com.briup.studentmanage.bean.ManagerAdminKey">
+  <resultMap id="mad" type="com.briup.studentmanage.bean.ex.ManagerEX">
         <result column="managerId" property="managerid"></result>
         <result column="adminId" property="adminid"></result>
+       <result column="mPhone" property="mPhone"></result>
+      <result column="mName" property="mName"></result>
+      <result column="rName" property="rName"></result>
     </resultMap>
-<select id="selectBymanagerid" resultType="com.briup.studentmanage.bean.Manager">
-    select t_manager.name,t_role.name, from t_manager,t_role
+<select id="selectBymanagerid" resultMap="mad">
+    select m.name mName,m.phone mPhone,a.adminId,r.name rName
+    from t_manager m,t_role r,t_manager_admin a
+    where m.id = a.managerId and a.adminId = r.id
 </select>
     <select id="selectAdminNum" resultType="java.lang.Integer">
         select count(*) from t_manager_admin

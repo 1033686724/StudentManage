@@ -27,7 +27,7 @@ public class ManagerAdminController {
     @GetMapping("/show")
     @ApiModelProperty("展示")
     public Message show(){
-        String[] s = iManagerService.findNum();
+        String s[] = iManagerService.findNum();
         return MessageUtil.success(s);
     }
     @GetMapping("/search")
