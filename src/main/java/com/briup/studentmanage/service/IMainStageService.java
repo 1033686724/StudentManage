@@ -1,7 +1,10 @@
 package com.briup.studentmanage.service;
 
+import com.briup.studentmanage.bean.Notice;
+
 import java.util.List;
 
 public interface IMainStageService {
-    void searchNum()throws RuntimeException;
+    String[] searchNum()throws RuntimeException;
+    List<Notice> show()throws RuntimeException;
 }

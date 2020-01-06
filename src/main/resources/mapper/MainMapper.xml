@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.briup.studentmanage.mapper.MainMapper">
-    <resultMap id="id" type="com.briup.studentmanage.mapper.MainMapper">
-
+    <resultMap id="abd" type="com.briup.studentmanage.bean.MainStage">
+        <result column="notice" property="notice"></result>
+        <result column="createTime" property="createTime"></result>
     </resultMap>
+
+    <select id="showNotice" resultMap="abd">
+        select notice,createTime from t_notice
+    </select>
+    <select id="selectAdminNum" resultType="java.lang.Integer">
+        select count(*) from t_manager_admin
+    </select>
+    <select id="selectTeacherNum" resultType="java.lang.Integer">
+        select count(*) from t_teacher
+    </select>
+    <select id="selectStuNum" resultType="java.lang.Integer">
+        select count(*) from t_student
+    </select>
+    <select id="selectClaNum" resultType="java.lang.Integer">
+        select count(*) from t_course
+    </select>
 </mapper>

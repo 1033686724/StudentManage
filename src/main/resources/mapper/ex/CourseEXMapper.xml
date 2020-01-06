@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.studentmanage.mapper.ex.CourseEXMapper">
+    <resultMap id="asd" type="com.briup.studentmanage.bean.ex.CourseEX">
+        <id column="id" property="id"></id>
+        <result column="className" property="classname"></result>
+        <result column="cname" property="cname" />
+        <result column="studentNum"  property="studentnum" />
+        <result column="remark"  property="remark" />
+        <result column="teacherId"  property="teacherid" />
+        <result column="name" property="teacherName"></result>
+        <association property="teacherEX" column="teacherid"
+                     select="selectName"></association>
+        <association property="studentNum" column="s"
+                     select="countStu"></association>
+    </resultMap>
+    <select id="selectAll" resultMap="asd">
+        select *
+        from t_course c,t_teacher t
+        where c.teacherid = t.id
+    </select>
+    <select id="selectName" resultType="com.briup.studentmanage.bean.ex.TeacherEX">
+        select  * from  t_teacher where id=#{teacherid}
+    </select>
+    <select id="countStu">
+        SELECT COUNT(*) FROM t_student
+    </select>
+    <select id="selectClassOrCnameOrRemark" resultType="com.briup.studentmanage.bean.ex.CourseEX">
+        select * from t_course where className like #{word} or cname like #{word} or remark like #{word}
+    </select>
+<!--    <select id="selectCname" resultType="com.briup.studentmanage.bean.ex.CourseEX">-->
+<!--        select * from t_course where cname like #{word}-->
+<!--    </select>-->
+<!--    <select id="selectRemark" resultType="com.briup.studentmanage.bean.ex.CourseEX">-->
+<!--        select * from t_course where remark like #{word}-->
+<!--    </select>-->
+</mapper>
