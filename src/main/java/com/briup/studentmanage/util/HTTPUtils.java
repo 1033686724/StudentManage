@@ -2,7 +2,7 @@ package com.briup.studentmanage.util;
 
 import java.io.IOException;
 import java.net.URL;
- 
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.HttpException;
@@ -20,7 +20,7 @@ public class HTTPUtils {
  
 	private final static Logger logger = Logger.getLogger(HTTPUtils.class);
  
-	private final static String OPERATER_NAME = "��HTTP������";
+	private final static String OPERATER_NAME = "【HTTP操作】";
  
 	private final static int SUCCESS = 200;
  
@@ -31,7 +31,7 @@ public class HTTPUtils {
 	private static HTTPUtils instance = new HTTPUtils();
  
 	/**
-	 * ˽�л�������
+	 * 私有化构造器
 	 */
 	private HTTPUtils() {
  
@@ -47,7 +47,7 @@ public class HTTPUtils {
 	}
  
 	/**
-	 * get����
+	 * get请求
 	 */
 	public static String get(URL url) {
 		return instance.doGet(url);
@@ -57,7 +57,7 @@ public class HTTPUtils {
 		long beginTime = System.currentTimeMillis();
 		String respStr = StringUtils.EMPTY;
 		try {
-			logger.info(OPERATER_NAME + "��ʼgetͨ�ţ�Ŀ��host:" + url);
+			logger.info(OPERATER_NAME + "开始get通信，目标host:" + url);
 			HttpMethod method = new GetMethod(url.toString());
 			// ����ת��
 			method.getParams().setContentCharset(UTF8);
@@ -65,10 +65,10 @@ public class HTTPUtils {
 				client.executeMethod(method);
 			} catch (HttpException e) {
  
-				logger.error(new StringBuffer("����HTTP GET��\r\n").append(url).append("\r\nHTTP�쳣\r\n"), e);
+				logger.error(new StringBuffer("发送HTTP GET给\r\n").append(url).append("\r\nHTTP异常\r\n"), e);
 			} catch (IOException e) {
  
-				logger.error(new StringBuffer("����HTTP GET��\r\n").append(url).append("\r\nIO�쳣\r\n"), e);
+				logger.error(new StringBuffer("发送HTTP GET给\r\n").append(url).append("\r\nIO异常\r\n"), e);
 			}
 			if (method.getStatusCode() == SUCCESS) {
 				respStr = method.getResponseBodyAsString();
@@ -76,20 +76,20 @@ public class HTTPUtils {
 			// �ͷ�����
 			method.releaseConnection();
  
-			logger.info(OPERATER_NAME + "ͨѶ��ɣ������룺" + method.getStatusCode());
-			logger.info(OPERATER_NAME + "�������ݣ�" + method.getResponseBodyAsString());
-			logger.info(OPERATER_NAME + "����..���ؽ��:" + respStr);
+			logger.info(OPERATER_NAME + "通讯完成 返回码" + method.getStatusCode());
+			logger.info(OPERATER_NAME + "通讯内容" + method.getResponseBodyAsString());
+			logger.info(OPERATER_NAME + "结果..返回结果:" + respStr);
 		} catch (Exception e) {
 			logger.info(OPERATER_NAME, e);
 		}
 		long endTime = System.currentTimeMillis();
-		logger.info(OPERATER_NAME + "���ƺ�ʱ:" + (endTime - beginTime) + "ms");
+		logger.info(OPERATER_NAME + "共计耗时:" + (endTime - beginTime) + "ms");
  
 		return respStr;
 	}
  
 	/**
-	 * POST����
+	 * POST请求
 	 */
 	public static String post(URL url, String content) {
 		return instance.doPost(url, content);
@@ -99,8 +99,8 @@ public class HTTPUtils {
 		long beginTime = System.currentTimeMillis();
 		String respStr = StringUtils.EMPTY;
 		try {
-			logger.info(OPERATER_NAME + "��ʼpostͨ�ţ�Ŀ��host:" + url.toString());
-			logger.info("ͨ������:" + content);
+			logger.info(OPERATER_NAME + "开始post通信，目标host:" + url.toString());
+			logger.info("通信内容:" + content);
 			PostMethod post = new PostMethod(url.toString());
 			RequestEntity requestEntity = new StringRequestEntity(content, "application/json", UTF8);
 			post.setRequestEntity(requestEntity);
@@ -112,16 +112,16 @@ public class HTTPUtils {
 				respStr = post.getResponseBodyAsString();
 			}
  
-			logger.info(OPERATER_NAME + "ͨѶ��ɣ������룺" + post.getStatusCode());
-			logger.info(OPERATER_NAME + "�������ݣ�" + post.getResponseBodyAsString());
-			logger.info(OPERATER_NAME + "����..���ؽ��:" + respStr);
+			logger.info(OPERATER_NAME + "通讯完成，返回码" + post.getStatusCode());
+			logger.info(OPERATER_NAME + "返回内容" + post.getResponseBodyAsString());
+			logger.info(OPERATER_NAME + "结果..返回结果:" + respStr);
 			post.releaseConnection();
  
 		} catch (Exception e) {
 			logger.error(OPERATER_NAME, e);
 		}
 		long endTime = System.currentTimeMillis();
-		logger.info(OPERATER_NAME + "���ƺ�ʱ:" + (endTime - beginTime) + "ms");
+		logger.info(OPERATER_NAME + "共计耗时ʱ:" + (endTime - beginTime) + "ms");
 		return respStr;
 	}
  

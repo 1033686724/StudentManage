@@ -4,16 +4,14 @@ import com.briup.studentmanage.bean.ex.User;
 import com.briup.studentmanage.service.ILoginVerifyService;
 import com.briup.studentmanage.util.JwtUtils;
 import io.swagger.annotations.Api;
-import jdk.nashorn.internal.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.jar.JarEntry;
+
 
 @RestController
 @RequestMapping("/loginController")
