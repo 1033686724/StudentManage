@@ -12,7 +12,6 @@ import java.util.UUID;
 /**
  * JSON Web Token
  *
- * @author LiuChuanWei
  * @date 2019-12-11
  */
 public class JwtUtils {

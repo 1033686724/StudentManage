@@ -4,6 +4,9 @@ import com.briup.studentmanage.bean.ex.User;
 import com.briup.studentmanage.service.ILoginVerifyService;
 import com.briup.studentmanage.util.JwtUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -24,7 +27,9 @@ public class LoginController {
     private JavaMailSender mailSender;
     @Autowired
     ILoginVerifyService iLoginVerifyService;
+
     @PostMapping("/login")
+    @ApiOperation("登录")
     public Object login(User user, HttpServletRequest request){
         String token1 = request.getHeader("token");
         if (token1==null||token1.equals(""))
@@ -74,6 +79,7 @@ public class LoginController {
 //
 //    }
     @PostMapping("/forgetPasswordAddKey")
+    @ApiOperation("忘记密码出验证码")
     public String forgetPasswordAddKey(String username,String mail) throws Exception{
         int key=(int)(Math.random()*10000)+500;
         iLoginVerifyService.forgetMailaddKey(username,mail,key);
@@ -93,6 +99,7 @@ public class LoginController {
         return "发送成功";
 }
     @GetMapping("/verifyMessage")
+    @ApiOperation("验证验证码")
     public String verifyMessage(String mail,int key){
        boolean i= iLoginVerifyService.verifyMessage(mail,key);
        iLoginVerifyService.deleteKey(mail);
@@ -103,6 +110,7 @@ public class LoginController {
 
     }
     @PutMapping("/changePassword")
+    @ApiOperation("修改密码")
     public String changePassword(String username,String password,String password1){
         if (!password.equals(password1))
         {
@@ -114,6 +122,8 @@ public class LoginController {
 
 
     }
+    @PostMapping("/bindMailBox")
+    @ApiOperation("绑定邮箱")
     public String BindMailbox(String mail,String username)throws Exception{
         if (mail.matches("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$")) {
             int key=(int)(Math.random()*10000)+500;
@@ -136,6 +146,8 @@ public class LoginController {
         }
 
     }
+    @GetMapping("/verifyBindMailbox")
+    @ApiOperation("验证绑定邮箱的验证码")
     public String verifyBindMailbox(String mail,int key){
         boolean i= iLoginVerifyService.verifyMessage(mail,key);
         iLoginVerifyService.deleteKey(mail);
