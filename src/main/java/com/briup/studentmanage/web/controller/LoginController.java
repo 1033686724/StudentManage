@@ -5,9 +5,12 @@ import com.briup.studentmanage.service.ILoginVerifyService;
 import com.briup.studentmanage.util.JwtUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +20,8 @@ import java.util.Map;
 @RequestMapping("/loginController")
 @Api(description = "登录")
 public class LoginController {
+    @Autowired
+    private JavaMailSender mailSender;
     @Autowired
     ILoginVerifyService iLoginVerifyService;
     @PostMapping("/login")
@@ -68,4 +73,76 @@ public class LoginController {
 //        }
 //
 //    }
+    @PostMapping("/forgetPasswordAddKey")
+    public String forgetPasswordAddKey(String username,String mail) throws Exception{
+        int key=(int)(Math.random()*10000)+500;
+        iLoginVerifyService.forgetMailaddKey(username,mail,key);
+        MimeMessage mimeMessage=mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        try {
+            helper.setFrom("2594791683@qq.com");
+            helper.setTo(mail);
+            helper.setSubject("找回密码");
+            helper.setText("由于您不记得密码，所以我们向你的密保邮箱发送了一条消息，包含了验证码"+key);
+//            FileSystemResource file = new FileSystemResource(new File("weixin.jpg"));
+//            helper.addInline("weixin", file);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+          e.printStackTrace();
+    }
+        return "发送成功";
+}
+    @GetMapping("/verifyMessage")
+    public String verifyMessage(String mail,int key){
+       boolean i= iLoginVerifyService.verifyMessage(mail,key);
+       iLoginVerifyService.deleteKey(mail);
+       if (i==true)
+           return "验证成功，准备修改密码";
+       else
+           return "验证失败";
+
+    }
+    @PutMapping("/changePassword")
+    public String changePassword(String username,String password,String password1){
+        if (!password.equals(password1))
+        {
+            return "修改失败，两次密码输入不一致";
+        }else {
+            iLoginVerifyService.changePassword(username,password);
+            return "修改成功";
+        }
+
+
+    }
+    public String BindMailbox(String mail,String username)throws Exception{
+        if (mail.matches("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$")) {
+            int key=(int)(Math.random()*10000)+500;
+            MimeMessage mimeMessage=mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            try {
+                helper.setFrom("2594791683@qq.com");
+                helper.setTo(mail);
+                helper.setSubject("绑定邮箱");
+                helper.setText("为了绑定邮箱，所以我们向你所想绑定邮箱发送了一条消息，包含了验证码"+key);
+//            FileSystemResource file = new FileSystemResource(new File("weixin.jpg"));
+//            helper.addInline("weixin", file);
+                mailSender.send(mimeMessage);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            return "发送成功";
+        } else {
+            return "邮箱格式不正确";
+        }
+
+    }
+    public String verifyBindMailbox(String mail,int key){
+        boolean i= iLoginVerifyService.verifyMessage(mail,key);
+        iLoginVerifyService.deleteKey(mail);
+        if (i==true)
+            return "绑定成功";
+        else
+            return "绑定失败";
+    }
+
 }

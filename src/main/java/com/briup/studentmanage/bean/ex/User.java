@@ -4,8 +4,24 @@ public class User {
 
     String username;
     String password;
+    String mail;
+    Integer key;
 
+    public Integer getKey() {
+        return key;
+    }
 
+    public void setKey(Integer key) {
+        this.key = key;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
     public String getUsername() {
         return username;

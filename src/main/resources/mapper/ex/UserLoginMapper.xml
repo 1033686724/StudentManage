@@ -7,4 +7,22 @@
     <select id="verifyUserName" resultType="com.briup.studentmanage.bean.ex.User">
         select * from t_manager where username=#{word}
     </select>
+    <select id="verifyMail" resultType="com.briup.studentmanage.bean.ex.User">
+        select * from t_manager where username=#{username}
+    </select>
+    <update id="addKey">
+        update t_manager t set t.key=#{key} where mail=#{mail}
+    </update>
+    <select id="findkey"  resultType="com.briup.studentmanage.bean.ex.User">
+        select t.key from  t_manager t where t.mail=#{mail}
+    </select>
+    <update id="deletekey">
+        update t_manager t set t.key=null where mail=#{mail}
+    </update>
+    <update id="updatePassword">
+        update t_manager t set t.password=#{password} where username=#{username}
+    </update>
+    <update id="updateMail">
+        update t_manager t set t.mail=#{mail} where username=#{username}
+    </update>
 </mapper>
