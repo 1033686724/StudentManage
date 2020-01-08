@@ -3,20 +3,25 @@ package com.briup.studentmanage.web.controller;
 import com.briup.studentmanage.bean.ex.User;
 import com.briup.studentmanage.service.ILoginVerifyService;
 import com.briup.studentmanage.util.JwtUtils;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.RateLimiter;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 @RestController
@@ -28,32 +33,61 @@ public class LoginController {
     @Autowired
     ILoginVerifyService iLoginVerifyService;
 
+
+    // 根据IP分不同的令牌桶, 每天自动清理缓存
+    private static LoadingCache<String, RateLimiter> caches = CacheBuilder.newBuilder()
+            .maximumSize(1000)
+            .expireAfterWrite(1, TimeUnit.DAYS)
+            .build(new CacheLoader<String, RateLimiter>() {
+                @Override
+                public RateLimiter load(String key) throws Exception {
+                    // 新的IP初始化 (限流每秒3个令牌响应)
+                    return RateLimiter.create(3);
+                }
+            });
+
+
     @PostMapping("/login")
     @ApiOperation("登录")
-    public Object login(User user, HttpServletRequest request){
+    public Object login(String username,String password, HttpServletRequest request, HttpSession session)throws Exception {
+        User user=new User();
+        user.setUsername(username);
+        user.setPassword(password);
         String token1 = request.getHeader("token");
-        if (token1==null||token1.equals(""))
-        {
-        boolean vf= iLoginVerifyService.verifyUser(user);
-        if (vf==true){
-            Map<String,Object> map= new HashMap<String, Object>();
-            map.put("用户名",user.getUsername());
-            map.put("密码",user.getPassword());
-            String token=JwtUtils.createToken(map);
+        String ip =iLoginVerifyService.getIp(request);
+        RateLimiter limiter = caches.get(ip);
+        if (limiter.tryAcquire()) {
+            if (token1==null||token1.equals(""))
+            {   if(!iLoginVerifyService.checkLock(session,username)) {
+                    return "该账号已被锁定";
+            }else {
+                boolean vf= iLoginVerifyService.verifyUser(user);
+                if (vf==true){
+                    Map<String,Object> map= new HashMap<String, Object>();
+                    map.put("用户名",username);
+                    map.put("密码",password);
+                    String token=JwtUtils.createToken(map);
 
-            return "登陆成功,token是"+token;
-        }else {
-            return "密码错误";
+                    return "登陆成功,token是"+token;
+                }else {
+                    iLoginVerifyService.addFailNum(session,username);
+                    return "密码错误";
+                }
+            }
+            }else{
+                if(JwtUtils.verifyToken(token1)==0)
+                    return "登陆成功";
+                else
+                    return "账户失效，请重新登录";
+            }
+
+        } else {
+                return "该ip账户登录次数过多，请稍后再试";
         }
-    }else{
-           if(JwtUtils.verifyToken(token1)==0)
-               return "登陆成功";
-           else
-               return "账户失效，请重新登录";
-        }
-
-
     }
+
+
+
 //   // 测试专用
 //    @PostMapping("/login")
 //    public Object loginTest(User user, String token2){
@@ -156,6 +190,18 @@ public class LoginController {
             return "绑定成功";}
         else
             return "绑定失败";
+    }
+    @GetMapping("/UnlockByMailbox")
+    @ApiOperation("解除用户锁定")
+    public String unLockUser(HttpSession session,String username,String mail,int key){
+        boolean i= iLoginVerifyService.verifyMessage(mail,key);
+        iLoginVerifyService.deleteKey(mail);
+        if (i==true){
+            iLoginVerifyService.clearFailNum(session, username);
+            return "解除成功";}
+        else
+            return "解除失败";
+
     }
 
 }
