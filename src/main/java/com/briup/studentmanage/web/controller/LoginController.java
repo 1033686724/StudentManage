@@ -86,7 +86,7 @@ public class LoginController {
         MimeMessage mimeMessage=mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         try {
-            helper.setFrom("2594791683@qq.com");
+            helper.setFrom("799534625@qq.com");
             helper.setTo(mail);
             helper.setSubject("找回密码");
             helper.setText("由于您不记得密码，所以我们向你的密保邮箱发送了一条消息，包含了验证码"+key);
@@ -130,7 +130,7 @@ public class LoginController {
             MimeMessage mimeMessage=mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
             try {
-                helper.setFrom("2594791683@qq.com");
+                helper.setFrom("799534625@qq.com");
                 helper.setTo(mail);
                 helper.setSubject("绑定邮箱");
                 helper.setText("为了绑定邮箱，所以我们向你所想绑定邮箱发送了一条消息，包含了验证码"+key);
@@ -148,11 +148,12 @@ public class LoginController {
     }
     @GetMapping("/verifyBindMailbox")
     @ApiOperation("验证绑定邮箱的验证码")
-    public String verifyBindMailbox(String mail,int key){
+    public String verifyBindMailbox(String username,String mail,int key){
         boolean i= iLoginVerifyService.verifyMessage(mail,key);
         iLoginVerifyService.deleteKey(mail);
-        if (i==true)
-            return "绑定成功";
+        if (i==true){
+            iLoginVerifyService.bindMail(username,mail);
+            return "绑定成功";}
         else
             return "绑定失败";
     }
