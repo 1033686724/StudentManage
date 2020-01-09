@@ -33,7 +33,7 @@ public class Swagger2Config {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("智慧校园")
+				.title("教务后台")
 				.description("昆山杰普软件科技有限公司，http://www.briup.com")
 				.termsOfServiceUrl("http://www.briup.com")
 				.version("1.1")

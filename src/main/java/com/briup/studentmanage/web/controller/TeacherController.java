@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/teacher")
 @Api(description = "教师管理")
 
-public class TeacherController {
+public class   TeacherController {
     @Autowired
     private ITeacherService teacherService;
 
