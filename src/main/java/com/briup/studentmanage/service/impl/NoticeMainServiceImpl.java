@@ -1,11 +1,8 @@
 package com.briup.studentmanage.service.impl;
 
-import com.briup.studentmanage.bean.Manager;
 import com.briup.studentmanage.bean.Notice;
 import com.briup.studentmanage.bean.NoticeExample;
 import com.briup.studentmanage.bean.ex.NoticeMainEX;
-import com.briup.studentmanage.mapper.ManagerAdminMapper;
-import com.briup.studentmanage.mapper.ManagerMapper;
 import com.briup.studentmanage.mapper.NoticeMapper;
 import com.briup.studentmanage.mapper.ex.NoticeMainEXMapper;
 import com.briup.studentmanage.service.INoticeMainService;

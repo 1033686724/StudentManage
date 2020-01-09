@@ -5,6 +5,7 @@ import com.briup.studentmanage.service.impl.NoticeMainServiceImpl;
 import com.briup.studentmanage.util.Message;
 import com.briup.studentmanage.util.MessageUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +22,12 @@ public class NoticeMainController {
     INoticeMainService iNoticeMainService;
 
     @GetMapping("/search")
+    @ApiOperation("预览")
     public Message search(Date date,Date date1,String word){
        return MessageUtil.success(iNoticeMainService.search(date,date1,word));
     }
     @PostMapping("/addNotice")
+    @ApiOperation("添加新通知")
     public Message add(String word,int id){
         iNoticeMainService.addNotice(word,id);
         return MessageUtil.success();

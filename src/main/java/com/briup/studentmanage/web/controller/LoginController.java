@@ -8,8 +8,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.RateLimiter;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -82,7 +80,7 @@ public class LoginController {
             }
 
         } else {
-                return "该ip账户登录次数过多，请稍后再试";
+                return "该时间登录数量过多，请稍后再试";
         }
     }
 
@@ -120,7 +118,7 @@ public class LoginController {
         MimeMessage mimeMessage=mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         try {
-            helper.setFrom("799534625@qq.com");
+            helper.setFrom("2594791683@qq.com");
             helper.setTo(mail);
             helper.setSubject("找回密码");
             helper.setText("由于您不记得密码，所以我们向你的密保邮箱发送了一条消息，包含了验证码"+key);
@@ -164,7 +162,7 @@ public class LoginController {
             MimeMessage mimeMessage=mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
             try {
-                helper.setFrom("799534625@qq.com");
+                helper.setFrom("2594791683@qq.com");
                 helper.setTo(mail);
                 helper.setSubject("绑定邮箱");
                 helper.setText("为了绑定邮箱，所以我们向你所想绑定邮箱发送了一条消息，包含了验证码"+key);

@@ -1,12 +1,11 @@
 package com.briup.studentmanage.service.impl;
 
-import com.briup.studentmanage.bean.Manager;
+
 import com.briup.studentmanage.bean.ex.User;
 import com.briup.studentmanage.mapper.ex.UserLoginMapper;
 import com.briup.studentmanage.service.ILoginVerifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
